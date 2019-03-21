@@ -42,14 +42,16 @@ class GuiPostprocessor:
                 self._do_task_list.append(
                     PrintPostprocess(module, paper_size, pdf))
 
-    def get(self, picture):
+    def get(self, picture, pictures):
 
-        return [task.get(picture) for task in self._get_task_list]
+        return PostprocessItem('Print', lambda: self._printer.print(pictures))
 
-    def do(self, picture):
+
+
+    def do(self, picture, pictures):
 
         for task in self._do_task_list:
-            task.get(picture).action()
+            task.get(picture,pictures).action()
 
 
 class PostprocessTask:
@@ -58,7 +60,7 @@ class PostprocessTask:
 
         super().__init__()
 
-    def get(self, picture):
+    def get(self, picture, pictures):
 
         raise NotImplementedError()
 

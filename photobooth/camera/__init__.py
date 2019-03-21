@@ -121,6 +121,8 @@ class Camera:
 
     def prepareCapture(self):
 
+        logging.debug('prepare capture')
+
         self.setActive()
         self._pictures = []
 
@@ -162,8 +164,11 @@ class Camera:
 
     def assemblePicture(self):
 
-        self.setIdle()
-
+        #self.setIdle()
+        self.teardown('wtf')
+        
+        # full screen compilation
+        
         picture = self._template.copy()
         for i in range(self._pic_dims.totalNumPictures):
             shot = Image.open(self._pictures[i])
@@ -173,5 +178,6 @@ class Camera:
         byte_data = BytesIO()
         picture.save(byte_data, format='jpeg')
         self._comm.send(Workers.MASTER,
-                        StateMachine.CameraEvent('review', byte_data))
+                        StateMachine.CameraEvent('review', byte_data, self._pictures))
+                        
         self._pictures = []

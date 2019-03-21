@@ -179,15 +179,23 @@ class GpioEvent(Event):
 
 class CameraEvent(Event):
 
-    def __init__(self, name, picture=None):
+    def __init__(self, name, picture=None, pictures=[]):
 
         super().__init__(name)
         self._picture = picture
+        self._pictures = pictures
+
 
     @property
     def picture(self):
 
         return self._picture
+        
+        
+    @property
+    def pictures(self):
+
+        return self._pictures
 
 
 class WorkerEvent(Event):
