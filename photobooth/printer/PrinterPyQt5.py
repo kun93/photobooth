@@ -23,6 +23,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtPrintSupport import QPrinter
 
 from . import Printer
+from PIL import Image, ImageOps, ImageFilter, ImageQt
 
 
 class PrinterPyQt5(Printer):
@@ -45,7 +46,39 @@ class PrinterPyQt5(Printer):
             self._printer.setOutputFormat(QPrinter.PdfFormat)
             self._printer.setFullPage(True)
 
-    def print(self, picture):
+    def print(self, pictures):
+    
+        logging.info ("Generating printout compilation")
+        
+        x = 547
+        y = 365
+        x1 = 16
+        y1 = 26
+        x2 = 636
+        abstand_y = 365+31
+        border = 10
+
+        pic = Image.open("/home/pi/photobooth/template.jpg").copy()
+
+        for n in range(4):
+
+            shot = Image.open(pictures[n])
+            shot = ImageOps.expand(shot, border=(border,border))
+            shot.thumbnail((x,y))
+            # left
+            resized = shot.crop((0,0,x,y))
+            box = (x1, y1+n*abstand_y, x+x1, y+y1+n*abstand_y)
+            pic.paste(resized, box)
+            # right
+            shot = shot.convert('L').filter(ImageFilter.SHARPEN)
+            resized = shot.crop((0,0,x,y))
+            box = (x2, y1+n*abstand_y, x+x2, y+y1+n*abstand_y)
+            pic.paste(resized, box)
+
+        #logging.info ("writing compiled image to disk")
+        #pic.save(time.strftime("%Y-%m-%d/%Hh%Ms%S.png"))
+        
+        picture = ImageQt.ImageQt(pic)
 
         if self._print_pdf:
             self._printer.setOutputFileName('print_%d.pdf' % self._counter)

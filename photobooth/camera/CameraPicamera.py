@@ -69,6 +69,6 @@ class CameraPicamera(CameraInterface):
 
         self.setActive()
         stream = io.BytesIO()
-        self._cap.capture(stream, format='jpeg', resize=None)
+        self._cap.capture(stream, format='jpeg', resize=(1920, 1080))
         stream.seek(0)
         return Image.open(stream)
