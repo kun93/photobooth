@@ -58,11 +58,11 @@ class PrinterPyQt5(Printer):
         abstand_y = 365+31
         border = 10
 
-        pic = Image.open("/home/pi/photobooth/template.jpg").copy()
+        pic = self._template.copy()
 
-        for n in range(4):
+        for i in range(4):
 
-            shot = Image.open(pictures[n])
+            shot = Image.open(pictures[i])
             shot = ImageOps.expand(shot, border=(border,border))
             shot.thumbnail((x,y))
             # left
