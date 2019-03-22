@@ -446,15 +446,20 @@ class AssembleState(State):
 
 class ReviewState(State):
 
-    def __init__(self, picture):
+    def __init__(self, picture,pictures=[]):
 
         super().__init__()
         self._picture = picture
+        self._pictures = pictures
 
     @property
     def picture(self):
 
         return self._picture
+    @property
+    def pictures(self):
+
+        return self._pictures
 
     def handleEvent(self, event, context):
 
