@@ -44,7 +44,7 @@ class GuiPostprocessor:
 
     def get(self, picture, pictures):
 
-        return PostprocessItem('Print', lambda: self._printer.print(pictures))
+        return [task.get(picture,pictures) for task in self._get_task_list]
 
 
 
