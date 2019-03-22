@@ -446,7 +446,7 @@ class AssembleState(State):
 
 class ReviewState(State):
 
-    def __init__(self, picture,pictures=[]):
+    def __init__(self, picture,pictures):
 
         super().__init__()
         self._picture = picture
